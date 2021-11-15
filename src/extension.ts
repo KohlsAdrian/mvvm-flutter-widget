@@ -44,13 +44,13 @@ const inputBoxOptions: vscode.InputBoxOptions = {
 // Function for opening and getting the path to save the files
 async function openFolderSelectionDialog(): Promise<string | undefined> {
     return new Promise<string | undefined>((resolve, reject) => {
-        vscode.window.showOpenDialog(dialogOptions).then( folderUri => {
+        vscode.window.showOpenDialog(dialogOptions).then((folderUri) => {
             if (folderUri && folderUri[0]) {
                 resolve(folderUri[0].path);
             } else {
                 resolve(undefined);
             }
-        }); 
+        });
     });
 }
 
@@ -71,21 +71,21 @@ async function generateStatefulWidget() {
     try {
         // TODO: Deal with the situation when folder exist
         await mkdir(folderPath);
-    } catch(error) {
+    } catch (error) {
         vscode.window.showErrorMessage('Something went wrong');
         return;
     }
-    
+
     // Write WidgetFile
     const widgetData = getWidgetData(widgetName, folderAndFileName);
     const widgetViewData = getWidgetViewData(widgetName, folderAndFileName);
     const widgetViewModelData = getWidgetViewModelData(widgetName, folderAndFileName);
-    
+
     try {
         await writeFile(folderPath + '/' + folderAndFileName + '.dart', widgetData, 'utf8');
         await writeFile(folderPath + '/' + folderAndFileName + '_view' + '.dart', widgetViewData, 'utf8');
         await writeFile(folderPath + '/' + folderAndFileName + '_view_model' + '.dart', widgetViewModelData, 'utf8');
-    } catch(error) {
+    } catch (error) {
         vscode.window.showErrorMessage('Something went wrong');
         return;
     }
